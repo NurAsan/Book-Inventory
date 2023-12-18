@@ -1,13 +1,13 @@
 package com.example.inventory.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColorScheme(
+private val DarkColorPalette = darkColors(
     primary = Color.White,
     background = Color.White,
     onPrimary = Color.Black
@@ -21,9 +21,11 @@ private val DarkColorPalette = darkColorScheme(
 
 val noteBGYellow = Color(0xFFfff69b)
 val noteBGBlue = Color(0xFFa1c8e9)
+val noteBGPink = Color(0xFFF39BFF)
+val noteBGDarkBlue= Color(0xFF4F72DC)
 
 
-private val LightColorPalette = lightColorScheme(
+private val LightColorPalette = lightColors(
     primary = Color.White,
     background = Color.White,
     onPrimary = Color.Black,
@@ -38,7 +40,7 @@ fun PhotoNotesTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     }
 
     MaterialTheme(
-        colorScheme = colors,
+        colors = colors,
         typography = Typography,
         shapes = Shapes,
         content = content

@@ -11,6 +11,8 @@ object Constants {
         title = "Cannot find note details"
     )
 
+    const val NAVIGATION_NOTES_CREATE = "noteCreate"
+
     fun noteDetailNavigation(noteId : Int) = "noteDetail/$noteId"
     fun noteEditNavigation(noteId : Int) = "noteEdit/$noteId"
 

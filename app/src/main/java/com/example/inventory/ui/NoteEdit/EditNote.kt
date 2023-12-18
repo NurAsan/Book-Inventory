@@ -11,14 +11,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
+//import androidx.compose.material.ExperimentalMaterial3Api
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -41,12 +41,13 @@ import com.example.inventory.PhotoNotesApp
 import com.example.inventory.R
 import com.example.inventory.model.Note
 import com.example.inventory.ui.GenericAppBar
+import com.example.inventory.ui.NoteList.NotesFab
 import com.example.inventory.ui.theme.PhotoNotesTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+//@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun NoteEditScreen(
     noteId: Int,
@@ -93,7 +94,7 @@ fun NoteEditScreen(
 
 
     PhotoNotesTheme{
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background){
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary){
             Scaffold(
                 topBar = { GenericAppBar(
                     title = "Edit Note",
