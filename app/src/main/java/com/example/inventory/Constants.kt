@@ -10,4 +10,8 @@ object Constants {
         id = 0,
         title = "Cannot find note details"
     )
+
+    fun noteDetailNavigation(noteId : Int) = "noteDetail/$noteId"
+    fun noteEditNavigation(noteId : Int) = "noteEdit/$noteId"
+
 }
