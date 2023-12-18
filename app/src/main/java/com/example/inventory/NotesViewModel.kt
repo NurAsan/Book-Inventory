@@ -31,6 +31,10 @@ class NotesViewModel (
             db.insertNote(note)
         }
     }
+
+    suspend fun getNote(id: Int): Note?{
+        return db.getNotesById(id)
+    }
 }
 
 class NoteViewModelFactory(
