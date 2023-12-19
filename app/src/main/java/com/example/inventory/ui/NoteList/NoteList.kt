@@ -60,6 +60,7 @@ import com.example.inventory.ui.GenericAppBar
 import com.example.inventory.ui.theme.PhotoNotesTheme
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -222,7 +223,9 @@ fun NoteList(
                 }
                 Spacer(modifier = Modifier
                     .fillMaxWidth()
-                    .height(12.dp))//must be 6
+                    .height(12.dp)//must be 6
+                )
+                previousHeader = note.getDay()
             }
             NoteListItem(
                 note,
@@ -263,6 +266,7 @@ fun NoteListItem(
         Column(modifier = Modifier
             .background(noteBackGround)
             .height(120.dp)
+            .fillMaxWidth()
             .combinedClickable(interactionSource = remember {
                 MutableInteractionSource()
             },
@@ -296,7 +300,10 @@ fun NoteListItem(
                             .build()
                         ),
                         contentDescription = null,
-                        modifier = Modifier.fillMaxWidth(0.4f))
+                        modifier = Modifier
+                            .fillMaxWidth(0.4f),
+                        contentScale = ContentScale.Crop
+                        )
                 }
                 Column(){
                     Text(

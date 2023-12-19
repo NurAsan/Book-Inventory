@@ -26,7 +26,7 @@ fun Note.getDay(): String {
     return  LocalDateTime.parse(this.dateUpdated, formatter).toLocalDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 }
 
-val placeHolderList = listOf(Note(title = "cannot find notes details",note = "Cannot find notes details"))
+val placeHolderList = listOf(Note(title = "cannot find notes details",note = "Cannot find notes details", id=0))
 fun List<Note>?.orPlaceHolderList(): List<Note> {
     return if(this != null && this.isNotEmpty()){
         this

@@ -12,6 +12,10 @@ object Constants {
     )
 
     const val NAVIGATION_NOTES_CREATE = "noteCreate"
+    const val NAVIGATION_NOTES_LIST = "noteList"
+    const val NAVIGATION_NOTES_DETAIL = "noteDetail/{noteId}"
+    const val NAVIGATION_NOTES_EDIT = "noteEdit/{noteId}"
+    const val NAVIGATION_NOTES_ID_ARGUMENT = "notesId"
 
     fun noteDetailNavigation(noteId : Int) = "noteDetail/$noteId"
     fun noteEditNavigation(noteId : Int) = "noteEdit/$noteId"

@@ -102,9 +102,9 @@ fun NoteEditScreen(
                         viewModel.updateNote(
                             Note(
                                 id=note.value.id,
-                                note = note.value.note,
-                                title = note.value.title,
-                                imageUri = note.value.imageUri
+                                note = currentNote.value,
+                                title = currentTitle.value,
+                                imageUri = currentPhotos.value
                             )
                         )
                         navController.popBackStack()

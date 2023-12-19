@@ -65,7 +65,8 @@ fun NoteDetailPage(
             Scaffold(
                 topBar = { GenericAppBar(
                     title = note.value.title,
-                    onIconClick = { navController.navigate(Constants.noteDetailNavigation(note.value.id?:0))},
+                    onIconClick = { navController.navigate(Constants.noteEditNavigation(note.value.id?:0))
+                    },
                     icon = {
                            Icon(
                                imageVector = ImageVector.vectorResource(id=R.drawable.edit_note),
