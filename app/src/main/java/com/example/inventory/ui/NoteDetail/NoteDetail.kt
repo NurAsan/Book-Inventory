@@ -1,7 +1,6 @@
 package com.example.inventory.ui.NoteDetail
 
 import android.annotation.SuppressLint
-import android.icu.text.CaseMap.Title
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -34,7 +33,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.inventory.Constants
 import com.example.inventory.Constants.noteDetailPlaceHolder
-import com.example.inventory.NotesViewModel
+import com.example.inventory.ui.NotesViewModel
 import com.example.inventory.R
 import com.example.inventory.ui.GenericAppBar
 import com.example.inventory.ui.theme.PhotoNotesTheme
@@ -43,80 +42,73 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NoteDetailPage(
-    noteId: Int,
-    navController: NavController,
-    viewModel: NotesViewModel
-){
+fun NoteDetailScreen(noteId: Int, navController: NavController, viewModel: NotesViewModel) {
     val scope = rememberCoroutineScope()
-
-    val note = remember{
+    val note = remember {
         mutableStateOf(noteDetailPlaceHolder)
     }
 
-    LaunchedEffect(true){
-        scope.launch(Dispatchers.IO){
-            note.value = viewModel.getNote(noteId)?: noteDetailPlaceHolder
+
+    LaunchedEffect(true) {
+        scope.launch(Dispatchers.IO) {
+            note.value = viewModel.getNote(noteId) ?: noteDetailPlaceHolder
         }
     }
 
-    PhotoNotesTheme{
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background){
+    PhotoNotesTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
             Scaffold(
-                topBar = { GenericAppBar(
-                    title = note.value.title,
-                    onIconClick = { navController.navigate(Constants.noteEditNavigation(note.value.id?:0))
-                    },
-                    icon = {
-                           Icon(
-                               imageVector = ImageVector.vectorResource(id=R.drawable.edit_note),
-                               contentDescription = stringResource(id = R.string.edit_note),
-                               tint = Color.Black
-                           )
-                    },
-                    iconState = remember{
-                        mutableStateOf(true)
-                    }
-                )}
-            ) {
-                Column(modifier = Modifier.fillMaxSize()){
-                    if(note.value.imageUri != null && note.value.imageUri!!.isNotEmpty()){
+                topBar = {
+                    GenericAppBar(
+                        title = note.value.title,
+                        onIconClick = {
+                            navController.navigate(Constants.noteEditNavigation(note.value.id ?: 0))
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.edit_note),
+                                contentDescription = stringResource(R.string.edit_note),
+                                tint = Color.Black,
+                            )
+                        },
+                        iconState = remember { mutableStateOf(true) }
+                    )
+                },
+
+                ) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                ) {
+
+                    if (note.value.imageUri != null && note.value.imageUri!!.isNotEmpty()) {
                         Image(
                             painter = rememberAsyncImagePainter(
                                 ImageRequest
                                     .Builder(LocalContext.current)
-                                    .data(data= Uri.parse(note.value.imageUri))
+                                    .data(data = Uri.parse(note.value.imageUri))
                                     .build()
                             ),
                             contentDescription = null,
                             modifier = Modifier
                                 .fillMaxHeight(0.3f)
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .padding(6.dp),
                             contentScale = ContentScale.Crop
                         )
                     }
                     Text(
                         text = note.value.title,
-                        modifier = Modifier.padding(top= 24.dp,start=24.dp,end=24.dp),
+                        modifier = Modifier.padding(top = 24.dp, start = 12.dp, end = 24.dp),
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Bold
                     )
-                    Text(
-                        text = note.value.dateUpdated,
-                        modifier = Modifier.padding(12.dp),
-                        fontSize = 26.sp,
-                        color = Color.Gray
-                    )
-                    Text(
-                        text = note.value.note,
-                        modifier = Modifier.padding(12.dp),
-                        fontSize = 30.sp
-                    )
+                    Text(text = note.value.dateUpdated, Modifier.padding(12.dp), color = Color.Gray)
+                    Text(text = note.value.note, Modifier.padding(12.dp))
                 }
-
 
             }
         }
     }
-
 }

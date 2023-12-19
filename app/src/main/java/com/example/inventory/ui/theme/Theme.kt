@@ -23,6 +23,7 @@ val noteBGYellow = Color(0xFFfff69b)
 val noteBGBlue = Color(0xFFa1c8e9)
 val noteBGPink = Color(0xFFF39BFF)
 val noteBGDarkBlue= Color(0xFF4F72DC)
+val noteBGNurislam= Color(0xFF009688)
 
 
 private val LightColorPalette = lightColors(
