@@ -132,8 +132,8 @@ fun CreateNoteScreen(
                         TextField(
                             value = currentTitle.value,
                             modifier = Modifier.fillMaxWidth()
-                                .background(color = noteBGNurislam)
-                                .clip(RoundedCornerShape(12.dp)),
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(color = noteBGNurislam),
                             colors = TextFieldDefaults.textFieldColors(
                                 cursorColor = Color.Black,
                                 focusedLabelColor = Color.Black,
@@ -143,7 +143,7 @@ fun CreateNoteScreen(
                                 saveButtonState.value =
                                     currentTitle.value != "" && currentNote.value != ""
                             },
-                            shape = RoundedCornerShape(8.dp),
+                            //shape = RoundedCornerShape(32.dp),
                             label = { Text(text = "Title") }
                         )
                         Spacer(modifier = Modifier.padding(12.dp))
@@ -156,14 +156,15 @@ fun CreateNoteScreen(
                             modifier = Modifier
                                 .fillMaxHeight(0.5f)
                                 .fillMaxWidth()
-                                .background(color = noteBGNurislam)
-                                .clip(RoundedCornerShape(12.dp)),
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(color = noteBGNurislam),
+
                             onValueChange = { value ->
                                 currentNote.value = value
                                 saveButtonState.value =
                                     currentTitle.value != "" && currentNote.value != ""
                             },
-                            shape = RoundedCornerShape(8.dp),
+                            //shape = RoundedCornerShape(32.dp),
                             label = { Text(text = "Body") }
                         )
                     }
