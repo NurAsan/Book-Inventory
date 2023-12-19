@@ -31,13 +31,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.example.inventory.Constants
-import com.example.inventory.NotesViewModel
+import com.example.inventory.Constants.noteDetailPlaceHolder
 import com.example.inventory.PhotoNotesApp
+import com.example.inventory.ui.NotesViewModel
 import com.example.inventory.R
 import com.example.inventory.model.Note
 import com.example.inventory.ui.GenericAppBar
@@ -49,149 +52,143 @@ import kotlinx.coroutines.launch
 //@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun NoteEditScreen(
-    noteId: Int,
-    navController: NavController,
-    viewModel: NotesViewModel,
-){
+fun NoteEditScreen(noteId: Int, navController: NavController, viewModel: NotesViewModel) {
     val scope = rememberCoroutineScope()
-    val note =  remember{ mutableStateOf((Constants.noteDetailPlaceHolder)) }
-    val currentNote = remember{
-        mutableStateOf(note.value.note)
+    val note = remember {
+        mutableStateOf(Constants.noteDetailPlaceHolder)
     }
-    val currentTitle = remember{
-        mutableStateOf(note.value.title)
-    }
-    val currentPhotos = remember{
-        mutableStateOf(note.value.imageUri)
-    }
-    val saveButtonState = remember{
-        mutableStateOf(false)
-    }
+
+    val currentNote = remember { mutableStateOf(note.value.note) }
+    val currentTitle = remember { mutableStateOf(note.value.title) }
+    val currentPhotos = remember { mutableStateOf(note.value.imageUri) }
+    val saveButtonState = remember { mutableStateOf(false) }
 
     val getImageRequest = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-        onResult = {uri->
-            if(uri != null){
-                PhotoNotesApp.getUriPermission(uri)
-            }
-            currentPhotos.value = uri.toString()
-            if(currentPhotos.value != note .value.imageUri){
-                saveButtonState.value = true
-            }
-        }
-    )
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri ->
 
-    LaunchedEffect(true){
-        scope.launch(Dispatchers.IO){
-            note.value = viewModel.getNote(noteId?: 0)?: Constants.noteDetailPlaceHolder
+        if (uri != null) {
+            PhotoNotesApp.getUriPermission(uri)
+        }
+        currentPhotos.value = uri.toString()
+        if (currentPhotos.value != note.value.imageUri) {
+            saveButtonState.value = true
+        }
+    }
+
+    LaunchedEffect(true) {
+        scope.launch(Dispatchers.IO) {
+            note.value = viewModel.getNote(noteId) ?: Constants.noteDetailPlaceHolder
             currentNote.value = note.value.note
             currentTitle.value = note.value.title
             currentPhotos.value = note.value.imageUri
-
         }
     }
 
 
-    PhotoNotesTheme{
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary){
+
+    PhotoNotesTheme {
+        // A surface container using the 'background' color from the theme
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary) {
             Scaffold(
-                topBar = { GenericAppBar(
-                    title = "Edit Note",
-                    onIconClick = {
-                        viewModel.updateNote(
-                            Note(
-                                id=note.value.id,
-                                note = currentNote.value,
-                                title = currentTitle.value,
-                                imageUri = currentPhotos.value
+                topBar = {
+                    GenericAppBar(
+                        title = "Edit Note",
+                        icon = {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(R.drawable.save),
+                                contentDescription = stringResource(R.string.save_note),
+                                tint = Color.Black,
                             )
-                        )
-                        navController.popBackStack()
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id= R.drawable.save),
-                            contentDescription = stringResource(id = R.string.save_note),
-                            tint = Color.Black
-                        )
-                    },
-                    iconState = saveButtonState
-                )
+                        },
+                        onIconClick = {
+                            viewModel.updateNote(
+                                Note(
+                                    id = note.value.id,
+                                    note = currentNote.value,
+                                    title = currentTitle.value,
+                                    imageUri = currentPhotos.value
+                                )
+                            )
+                            navController.popBackStack()
+                        },
+                        iconState = saveButtonState
+                    )
                 },
                 floatingActionButton = {
                     NotesFab(
-                        contentDescription= stringResource(id = R.string.add_photo),
+                        contentDescription = stringResource(R.string.add_photo),
                         action = {
-                            getImageRequest.launch(arrayOf(("image/*")))
+                            getImageRequest.launch(arrayOf("image/*"))
+
                         },
                         icon = R.drawable.camera
                     )
-                }
-            ) {
-                Column(modifier = Modifier
-                    .padding(12.dp)
-                    .fillMaxSize()){
-                    if(currentPhotos.value!= null && currentPhotos.value!!.isNotEmpty()){
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                ImageRequest
-                                    .Builder(LocalContext.current)
-                                    .data(data= Uri.parse(currentPhotos.value))
-                                    .build()
-                            ),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .fillMaxHeight(0.3f)
-                                .fillMaxWidth()
-                                .padding(6.dp),
+                },
+                content = {
 
-                            contentScale = ContentScale.Crop
+                    Column(
+                        Modifier
+                            .padding(12.dp)
+                            .fillMaxSize()
+                    ) {
+                        if (currentPhotos.value != null && currentPhotos.value!!.isNotEmpty()) {
+                            Image(
+                                painter = rememberAsyncImagePainter(
+                                    ImageRequest
+                                        .Builder(LocalContext.current)
+                                        .data(data = Uri.parse(currentPhotos.value))
+                                        .build()
+                                ),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .fillMaxHeight(0.3f)
+                                    .padding(6.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                        TextField(
+                            value = currentTitle.value,
+                            colors = TextFieldDefaults.textFieldColors(
+                                cursorColor = Color.Black,
+                                focusedLabelColor = Color.Black,
+                            ),
+                            onValueChange = { value ->
+                                currentTitle.value = value
+                                if (currentTitle.value != note.value.title) {
+                                    saveButtonState.value = true
+                                } else if (currentNote.value == note.value.note &&
+                                    currentTitle.value == note.value.title
+                                ) {
+                                    saveButtonState.value = false
+                                }
+                            },
+                            label = { Text(text = "Title") }
+                        )
+                        Spacer(modifier = Modifier.padding(12.dp))
+                        TextField(
+                            value = currentNote.value,
+                            colors = TextFieldDefaults.textFieldColors(
+                                cursorColor = Color.Black,
+                                focusedLabelColor = Color.Black,
+                            ),
+                            onValueChange = { value ->
+                                currentNote.value = value
+                                if (currentNote.value != note.value.note) {
+                                    saveButtonState.value = true
+                                } else if (currentNote.value == note.value.note &&
+                                    currentTitle.value == note.value.title
+                                ) {
+                                    saveButtonState.value = false
+                                }
+                            },
+                            label = { Text(text = "Body") }
                         )
                     }
-                    TextField(
-                        value = currentTitle.value,
-                        colors = TextFieldDefaults.textFieldColors(
-                            cursorColor =  Color.Black,
-                            focusedLabelColor = Color.Black
-                        ),
-                        onValueChange = {value ->
-                            currentTitle.value = value
-                            if(currentTitle.value != note.value.title){
-                                saveButtonState.value = true
-                            } else if(currentNote.value == note.value.note &&
-                                currentTitle.value == note.value.title){
-                                saveButtonState.value  = false
-                            }
-                        },
-                        label = {Text("Title")}
-                    )
-                    Spacer(modifier = Modifier.padding(12.dp))
-                    TextField(
-                        value = currentNote.value,
-                        colors = TextFieldDefaults.textFieldColors(
-                            cursorColor =  Color.Black,
-                            focusedLabelColor = Color.Black
-                        ),
-                        onValueChange = {value ->
-                            currentNote.value = value
-                            if(currentNote.value != note.value.note){
-                                saveButtonState.value = true
-                            } else if(currentNote.value == note.value.note &&
-                                currentTitle.value == note.value.title){
-                                saveButtonState.value  = false
-                            }
-                        },
-                        label = {Text("Body")}
-                    )
                 }
 
-
-            }
+            )
         }
     }
-    
-    
-    
-    
 }

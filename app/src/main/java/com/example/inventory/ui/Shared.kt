@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenericAppBar(
     title: String,
@@ -18,16 +17,16 @@ fun GenericAppBar(
     icon: @Composable() (() -> Unit)?,
     iconState: MutableState<Boolean>
 ) {
-    TopAppBar(
-        title = { Text(title) },
-        Modifier.background(color = MaterialTheme.colorScheme.primary),
+    androidx.compose.material.TopAppBar(
+        title = { androidx.compose.material.Text(title) },
+        backgroundColor = androidx.compose.material.MaterialTheme.colors.primary,
         actions = {
-            IconButton(
+            androidx.compose.material.IconButton(
                 onClick = {
                     onIconClick?.invoke()
                 },
                 content = {
-                    if (iconState.value){
+                    if (iconState.value) {
                         icon?.invoke()
                     }
                 }

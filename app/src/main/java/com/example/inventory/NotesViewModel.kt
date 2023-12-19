@@ -33,7 +33,7 @@ class NotesViewModel (
     }
 
     suspend fun getNote(id: Int): Note?{
-        return db.getNotesById(id)
+        return db.getNoteById(id)
     }
 }
 
