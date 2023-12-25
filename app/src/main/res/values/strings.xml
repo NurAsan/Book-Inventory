@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 <resources>
-    <string name="app_name">Photo Notes</string>
+    <string name="app_name">Book App</string>
     <string name="create_note">Create Note</string>
     <string name="add_photo">Add Photo</string>
     <string name="photo_notes">Photo Notes</string>

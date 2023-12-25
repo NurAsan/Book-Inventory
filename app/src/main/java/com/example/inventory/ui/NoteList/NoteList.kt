@@ -54,6 +54,7 @@ import com.example.inventory.model.Note
 import com.example.inventory.ui.GenericAppBar
 import com.example.inventory.ui.theme.PhotoNotesTheme
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -64,7 +65,11 @@ import coil.request.ImageRequest
 import com.example.inventory.Constants
 import com.example.inventory.model.getDay
 import com.example.inventory.model.orPlaceHolderList
+import com.example.inventory.ui.theme.noteBGBatty2
+import com.example.inventory.ui.theme.noteBGBatty3
 import com.example.inventory.ui.theme.noteBGDarkBlue
+import com.example.inventory.ui.theme.noteBGJhonny
+import com.example.inventory.ui.theme.noteBGNurislam
 import com.example.inventory.ui.theme.noteBGPink
 
 //@OptIn(ExperimentalMaterial3Api::class)
@@ -79,11 +84,12 @@ fun NotesList(navController: NavController, viewModel: NotesViewModel) {
     val context = LocalContext.current
     PhotoNotesTheme {
         // A surface container using the 'background' color from the theme
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.primary) {
+        Surface(modifier = Modifier.fillMaxSize().background(color = noteBGBatty2), color = MaterialTheme.colors.primary) {
             Scaffold(
+                //Modifier.background(color = noteBGBatty2),
                 topBar = {
                     GenericAppBar(
-                        title = stringResource(R.string.photo_notes),
+                        title = "Main Page"/*stringResource(R.string.photo_notes)*/,
                         onIconClick = {
                             if (notes.value?.isNotEmpty() == true) {
                                 openDialog.value = true
@@ -116,7 +122,7 @@ fun NotesList(navController: NavController, viewModel: NotesViewModel) {
                 }
 
             ) {
-                Column() {
+                Column(Modifier.background(color = noteBGBatty2)) {
                     SearchBar(notesQuery)
                     NotesList(
                         notes = notes.value.orPlaceHolderList(),
@@ -152,8 +158,8 @@ fun SearchBar(query: MutableState<String>) {
             maxLines = 1,
             onValueChange = { query.value = it },
             modifier = Modifier
-                .background(Color.White)
                 .clip(RoundedCornerShape(12.dp))
+                .background(color = noteBGJhonny)
                 .fillMaxWidth(),
             colors = androidx.compose.material.TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
@@ -191,7 +197,7 @@ fun NotesList(
     var previousHeader = ""
     LazyColumn(
         contentPadding = PaddingValues(12.dp),
-        modifier = Modifier.background(MaterialTheme.colors.primary)
+        modifier = Modifier.background(MaterialTheme.colors.primary).background(color = noteBGBatty2)
     ) {
         val queriedNotes = if (query.value.isEmpty()){
             notes
@@ -342,15 +348,20 @@ fun DeleteDialog(
 ) {
     if (openDialog.value) {
         AlertDialog(
+            modifier = Modifier.background(color = noteBGBatty3),
             onDismissRequest = {
                 openDialog.value = false
             },
             title = {
-                Text(text = "Delete Note")
+                Text(text = "Delete Note",
+                    Modifier.background(color = noteBGBatty3)
+                        .fillMaxWidth())
             },
             text = {
                 Column() {
-                    Text(text.value)
+                    Text(text.value,
+                        Modifier.background(color = noteBGBatty3)
+                            .fillMaxWidth())
                 }
             },
             buttons = {
@@ -358,11 +369,17 @@ fun DeleteDialog(
                     modifier = Modifier.padding(all = 8.dp),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Column() {
+                    Column(
+                        Modifier.background(color = noteBGBatty3)
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Button(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(0.3f),
+
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black,
+                                backgroundColor = Color.Red,
                                 contentColor = Color.White
                             ),
                             onClick = {
@@ -375,9 +392,9 @@ fun DeleteDialog(
                         }
                         Spacer(modifier = Modifier.padding(12.dp))
                         Button(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(0.3f),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black,
+                                backgroundColor = Color.Green,
                                 contentColor = Color.White
                             ),
                             onClick = {

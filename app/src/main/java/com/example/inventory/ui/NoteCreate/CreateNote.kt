@@ -42,7 +42,9 @@ import com.example.inventory.R
 import com.example.inventory.ui.GenericAppBar
 import com.example.inventory.ui.NoteList.NotesFab
 import com.example.inventory.ui.theme.PhotoNotesTheme
+import com.example.inventory.ui.theme.noteBGBatty3
 import com.example.inventory.ui.theme.noteBGNurislam
+import com.example.inventory.ui.theme.noteBGYellow
 
 //@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -110,8 +112,10 @@ fun CreateNoteScreen(
                 content = {
                     Column(
                         Modifier
+                            .background(color = noteBGYellow)
                             .padding(12.dp)
                             .fillMaxSize()
+                            .background(color = noteBGYellow),
                     ) {
                         if (currentPhotos.value.isNotEmpty()) {
                             Image(

@@ -8,5 +8,4 @@ import com.example.inventory.model.Note
     Note::class], version = 1)
 abstract class NotesDatabase : RoomDatabase() {
     abstract fun NotesDao(): NotesDao
-
 }

@@ -5,12 +5,14 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 //import androidx.compose.material.ExperimentalMaterial3Api
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -25,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -46,6 +49,7 @@ import com.example.inventory.model.Note
 import com.example.inventory.ui.GenericAppBar
 import com.example.inventory.ui.NoteList.NotesFab
 import com.example.inventory.ui.theme.PhotoNotesTheme
+import com.example.inventory.ui.theme.noteBGNurislam
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -93,7 +97,7 @@ fun NoteEditScreen(noteId: Int, navController: NavController, viewModel: NotesVi
             Scaffold(
                 topBar = {
                     GenericAppBar(
-                        title = "Edit Note",
+                        title = "Post Edition Page",
                         icon = {
                             Icon(
                                 imageVector = ImageVector.vectorResource(R.drawable.save),
@@ -154,6 +158,9 @@ fun NoteEditScreen(noteId: Int, navController: NavController, viewModel: NotesVi
                                 cursorColor = Color.Black,
                                 focusedLabelColor = Color.Black,
                             ),
+                            modifier = Modifier.fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(color = noteBGNurislam),
                             onValueChange = { value ->
                                 currentTitle.value = value
                                 if (currentTitle.value != note.value.title) {
@@ -173,6 +180,9 @@ fun NoteEditScreen(noteId: Int, navController: NavController, viewModel: NotesVi
                                 cursorColor = Color.Black,
                                 focusedLabelColor = Color.Black,
                             ),
+                            modifier = Modifier.fillMaxWidth()
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(color = noteBGNurislam),
                             onValueChange = { value ->
                                 currentNote.value = value
                                 if (currentNote.value != note.value.note) {
